@@ -22,6 +22,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 
+import com.griffith.androidproject_3144757.pages.PlantScreen
+import com.griffith.androidproject_3144757.pages.PhotoJournalScreen
+import com.griffith.androidproject_3144757.pages.SettingsScreen
+import com.griffith.androidproject_3144757.pages.ShopScreen
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +82,13 @@ fun MainScreen() {
                 .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
-            Text("Page: ${titles[selectedTab]}")
+            when (selectedTab) {
+                0 -> PlantScreen()
+                1 -> ShopScreen()
+                2 -> PhotoJournalScreen()
+                3 -> SettingsScreen()
+            }
+
         }
     }
 }
