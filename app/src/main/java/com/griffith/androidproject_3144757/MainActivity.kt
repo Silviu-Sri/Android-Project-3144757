@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -12,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.griffith.androidproject_3144757.ui.theme.AndroidProject3144757Theme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableIntStateOf
@@ -21,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 
 import com.griffith.androidproject_3144757.pages.PlantScreen
 import com.griffith.androidproject_3144757.pages.PhotoJournalScreen
@@ -55,7 +59,12 @@ fun MainScreen() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                modifier = Modifier.height(
+                    64.dp + NavigationBarDefaults.windowInsets
+                        .asPaddingValues().calculateBottomPadding()
+                )
+            ) {
                 titles.forEachIndexed { index, title ->
                     NavigationBarItem(
                         selected = selectedTab == index,
