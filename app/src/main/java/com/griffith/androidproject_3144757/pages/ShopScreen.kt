@@ -45,16 +45,19 @@ fun ShopScreen() {
             Text(
                 text = "You have",
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
             )
             Text(
                 text = "50",
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
             )
             Text(
                 text = "coins",
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
             )
         }

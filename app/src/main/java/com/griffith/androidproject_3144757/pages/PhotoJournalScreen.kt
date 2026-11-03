@@ -45,11 +45,13 @@ fun PhotoJournalScreen() {
             Text(
                 text = "Track your plant's growth",
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
             )
             Text(
                 text = "23 days old",
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
             )
         }
