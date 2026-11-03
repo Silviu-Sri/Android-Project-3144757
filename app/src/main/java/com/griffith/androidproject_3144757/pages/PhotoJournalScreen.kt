@@ -38,10 +38,21 @@ fun PhotoJournalScreen() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = "Track your plant's growth",
-            style = MaterialTheme.typography.bodyMedium
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Track your plant's growth",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.alignByBaseline()
+            )
+            Text(
+                text = "23 days old",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.alignByBaseline()
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
