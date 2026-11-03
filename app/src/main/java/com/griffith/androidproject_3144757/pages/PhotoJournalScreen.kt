@@ -13,17 +13,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.griffith.androidproject_3144757.R
 
 @Composable
 fun PhotoJournalScreen() {
 
     val plantImages = listOf(
-        R.drawable.plant_image,
-        R.drawable.plant_image,
-        R.drawable.plant_image,
-        R.drawable.plant_image
+        R.drawable.plant_image_0,
+        R.drawable.plant_image_1,
+        R.drawable.plant_image_2,
+        R.drawable.plant_image_3
     )
 
     Column(

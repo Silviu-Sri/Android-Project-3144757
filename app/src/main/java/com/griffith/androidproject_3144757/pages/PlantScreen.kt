@@ -77,7 +77,7 @@ fun PlantScreen() {
         }
 
         Image(
-            painter = painterResource(id = R.drawable.plant_image),
+            painter = painterResource(id = R.drawable.plant_image_3),
             contentDescription = "Plant picture",
             modifier = Modifier
                 .fillMaxWidth()
