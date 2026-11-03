@@ -18,11 +18,11 @@ import com.griffith.androidproject_3144757.R
 @Composable
 fun ShopScreen() {
 
-    val plantImages = listOf(
-        R.drawable.tool_01_trowel,
-        R.drawable.tool_02_scissors,
-        R.drawable.tool_03_watering_can,
-        R.drawable.tool_04_speaker
+    val shopItems = listOf(
+        R.drawable.tool_01_trowel to 20,
+        R.drawable.tool_02_scissors to 10,
+        R.drawable.tool_03_watering_can to 35,
+        R.drawable.tool_04_speaker to 50
     )
 
     Column(
@@ -66,17 +66,24 @@ fun ShopScreen() {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(plantImages) { image ->
-
-                Image(
-                    painter = painterResource(id = image),
-                    contentDescription = "Tool",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentScale = ContentScale.Crop
-                )
+            items(shopItems) { (image, price) ->
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = image),
+                        contentDescription = "Tool",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clip(RoundedCornerShape(16.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                    Text(
+                        text = "$price coins",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
