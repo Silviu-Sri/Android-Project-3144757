@@ -1,5 +1,11 @@
 package com.griffith.androidproject_3144757
 
+import android.content.res.Configuration
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
+import java.util.Locale
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,6 +33,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.griffith.androidproject_3144757.R
 
 import com.griffith.androidproject_3144757.pages.PlantScreen
 import com.griffith.androidproject_3144757.pages.PhotoJournalScreen
@@ -38,8 +46,25 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AndroidProject3144757Theme {
-                MainScreen()
+            val preferences = getSharedPreferences("settings", MODE_PRIVATE)
+            var languageTag by rememberSaveable {
+                mutableStateOf(preferences.getString("language", resources.configuration.locales[0].toLanguageTag())!!)
+            }
+            val configuration = Configuration(LocalConfiguration.current).apply {
+                setLocale(Locale.forLanguageTag(languageTag))
+            }
+            val localizedContext = createConfigurationContext(configuration)
+
+            CompositionLocalProvider(
+                LocalContext provides localizedContext,
+                LocalConfiguration provides configuration
+            ) {
+                AndroidProject3144757Theme {
+                    MainScreen(onLanguageChange = { language ->
+                        preferences.edit().putString("language", language).apply()
+                        languageTag = language
+                    })
+                }
             }
         }
     }
@@ -48,12 +73,17 @@ class MainActivity : ComponentActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen() {
+fun MainScreen(onLanguageChange: (String) -> Unit) {
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
     }
 
-    val titles = listOf("Plant", "Shop", "Photo Journal", "Settings")
+    val titles = listOf(
+        stringResource(R.string.plant),
+        stringResource(R.string.shop),
+        stringResource(R.string.photo_journal),
+        stringResource(R.string.settings)
+    )
     val icons = listOf(
         R.drawable.plant,
         R.drawable.shop,
@@ -99,9 +129,8 @@ fun MainScreen() {
                 0 -> PlantScreen()
                 1 -> ShopScreen()
                 2 -> PhotoJournalScreen()
-                3 -> SettingsScreen()
+                3 -> SettingsScreen(onLanguageChange)
             }
-
         }
     }
 }

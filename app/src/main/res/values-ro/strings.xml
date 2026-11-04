@@ -1,0 +1,19 @@
+<resources>
+    <string name="plant">Plante</string>
+    <string name="shop">Magazin</string>
+    <string name="photo_journal">Jurnal foto</string>
+    <string name="settings">Setări</string>
+    <string name="volume">Volum</string>
+    <string name="notifications">Notificări</string>
+    <string name="language">Limbă</string>
+    <string name="my_plants">Plantele mele</string>
+    <string name="track_growth">Urmărește creșterea plantelor tale</string>
+    <string name="volume_level">Volum: %1$d%%</string>
+    <string name="gardening_shop">Magazin de grădinărit</string>
+    <string name="coin_balance">Ai %1$d de monede</string>
+    <string name="coin_price">%1$d de monede</string>
+    <string name="plant_age">%1$d de zile</string>
+    <string name="plant_picture">Imagine cu planta</string>
+    <string name="plant_growth_photo">Fotografie cu creșterea plantei</string>
+    <string name="tool">Unealtă</string>
+</resources>

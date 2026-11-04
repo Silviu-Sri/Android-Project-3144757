@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.griffith.androidproject_3144757.R
 
@@ -32,7 +33,7 @@ fun PhotoJournalScreen() {
     ) {
 
         Text(
-            text = "Photo Journal",
+            text = stringResource(R.string.photo_journal),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -43,13 +44,13 @@ fun PhotoJournalScreen() {
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Track your plant's growth",
+                text = stringResource(R.string.track_growth),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.alignByBaseline()
+                modifier = Modifier.weight(1f).alignByBaseline()
             )
             Text(
-                text = "23 days old",
+                text = stringResource(R.string.plant_age, 23),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
@@ -67,7 +68,7 @@ fun PhotoJournalScreen() {
 
                 Image(
                     painter = painterResource(id = image),
-                    contentDescription = "Plant growth photo",
+                    contentDescription = stringResource(R.string.plant_growth_photo),
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)

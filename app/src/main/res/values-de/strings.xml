@@ -1,0 +1,19 @@
+<resources>
+    <string name="plant">Pflanzen</string>
+    <string name="shop">Shop</string>
+    <string name="photo_journal">Fototagebuch</string>
+    <string name="settings">Einstellungen</string>
+    <string name="volume">Lautstärke</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="language">Sprache</string>
+    <string name="my_plants">Meine Pflanzen</string>
+    <string name="track_growth">Verfolge das Wachstum deiner Pflanzen</string>
+    <string name="volume_level">Lautstärke: %1$d%%</string>
+    <string name="gardening_shop">Gartenshop</string>
+    <string name="coin_balance">Du hast %1$d Münzen</string>
+    <string name="coin_price">%1$d Münzen</string>
+    <string name="plant_age">%1$d Tage alt</string>
+    <string name="plant_picture">Pflanzenbild</string>
+    <string name="plant_growth_photo">Foto des Pflanzenwachstums</string>
+    <string name="tool">Werkzeug</string>
+</resources>

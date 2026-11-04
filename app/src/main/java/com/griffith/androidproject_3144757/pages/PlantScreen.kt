@@ -13,7 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import kotlin.time.Duration.Companion.milliseconds
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
@@ -37,7 +38,7 @@ fun PlantScreen() {
 
     val dateFormatter = DateTimeFormatter.ofPattern(
         "EEEE, dd MMMM yyyy",
-        Locale.ENGLISH
+        LocalConfiguration.current.locales[0]
     )
 
     val timeFormatter = DateTimeFormatter.ofPattern(
@@ -78,7 +79,7 @@ fun PlantScreen() {
 
         Image(
             painter = painterResource(id = R.drawable.plant_image_3),
-            contentDescription = "Plant picture",
+            contentDescription = stringResource(R.string.plant_picture),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),

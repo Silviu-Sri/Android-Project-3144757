@@ -7,9 +7,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import com.griffith.androidproject_3144757.R
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(onLanguageChange: (String) -> Unit) {
 
     var volume by rememberSaveable {
         mutableFloatStateOf(50f)
@@ -19,18 +22,16 @@ fun SettingsScreen() {
         mutableStateOf(true)
     }
 
-    var selectedLanguage by rememberSaveable {
-        mutableStateOf("English")
-    }
+    val languageCode = LocalConfiguration.current.locales[0].language
 
     var expanded by remember {
         mutableStateOf(false)
     }
 
     val languages = listOf(
-        "English",
-        "German",
-        "Romanian"
+        "en" to "English",
+        "ro" to "Română",
+        "de" to "Deutsch"
     )
 
     Column(
@@ -41,14 +42,14 @@ fun SettingsScreen() {
     ) {
 
         Text(
-            text = "Settings",
+            text = stringResource(R.string.settings),
             style = MaterialTheme.typography.headlineMedium
         )
 
         HorizontalDivider()
 
         Text(
-            text = "Volume: ${volume.toInt()}%",
+            text = stringResource(R.string.volume_level, volume.toInt()),
             fontSize = 18.sp
         )
 
@@ -66,7 +67,7 @@ fun SettingsScreen() {
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
         ) {
             Text(
-                text = "Notifications",
+                text = stringResource(R.string.notifications),
                 fontSize = 18.sp
             )
 
@@ -81,7 +82,7 @@ fun SettingsScreen() {
         HorizontalDivider()
 
         Text(
-            text = "Language",
+            text = stringResource(R.string.language),
             fontSize = 18.sp
         )
 
@@ -89,7 +90,7 @@ fun SettingsScreen() {
             OutlinedButton(
                 onClick = { expanded = true }
             ) {
-                Text(selectedLanguage)
+                Text(languages.firstOrNull { it.first == languageCode }?.second ?: "English")
             }
 
             DropdownMenu(
@@ -98,11 +99,11 @@ fun SettingsScreen() {
                     expanded = false
                 }
             ) {
-                languages.forEach { language ->
+                languages.forEach { (code, language) ->
                     DropdownMenuItem(
                         text = { Text(language) },
                         onClick = {
-                            selectedLanguage = language
+                            onLanguageChange(code)
                             expanded = false
                         }
                     )

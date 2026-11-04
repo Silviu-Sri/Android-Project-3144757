@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.griffith.androidproject_3144757.R
 
@@ -32,7 +33,7 @@ fun ShopScreen() {
     ) {
 
         Text(
-            text = "Gardening Shop",
+            text = stringResource(R.string.gardening_shop),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -43,19 +44,7 @@ fun ShopScreen() {
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "You have",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.alignByBaseline()
-            )
-            Text(
-                text = "50",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.alignByBaseline()
-            )
-            Text(
-                text = "coins",
+                text = stringResource(R.string.coin_balance, 50),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.alignByBaseline()
@@ -75,7 +64,7 @@ fun ShopScreen() {
                 ) {
                     Image(
                         painter = painterResource(id = image),
-                        contentDescription = "Tool",
+                        contentDescription = stringResource(R.string.tool),
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)
@@ -83,7 +72,7 @@ fun ShopScreen() {
                         contentScale = ContentScale.Crop
                     )
                     Text(
-                        text = "$price coins",
+                        text = stringResource(R.string.coin_price, price),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
