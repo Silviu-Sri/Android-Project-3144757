@@ -25,6 +25,7 @@ import com.griffith.androidproject_3144757.ui.theme.AndroidProject3144757Theme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -167,7 +168,10 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                         },
                         label = {
                             Text(title, color = if (selectedTab == index) Color(0xFFFFEE55) else Color.White)
-                        }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent
+                        )
                     )
                 }
             }
