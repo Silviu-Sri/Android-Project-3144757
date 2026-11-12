@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.griffith.androidproject_3144757.ui.theme.AndroidProject3144757Theme
@@ -25,13 +26,28 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import android.graphics.BitmapFactory
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageShader
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.griffith.androidproject_3144757.R
@@ -72,10 +88,19 @@ class MainActivity : ComponentActivity() {
 
 
 @RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(onLanguageChange: (String) -> Unit) {
     var selectedTab by rememberSaveable {
         mutableIntStateOf(0)
+    }
+
+    val context = LocalContext.current
+    val dirtBitmap = remember {
+        BitmapFactory.decodeResource(context.resources, R.drawable.bottom_nav_dirt)
+    }
+    val dirtImageBitmap = remember(dirtBitmap) {
+        dirtBitmap.asImageBitmap()
     }
 
     val titles = listOf(
@@ -92,12 +117,40 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     )
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(titles[selectedTab], color = MaterialTheme.colorScheme.onTertiary) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary
+                )
+            )
+        },
         bottomBar = {
             NavigationBar(
-                modifier = Modifier.height(
-                    64.dp + NavigationBarDefaults.windowInsets
-                        .asPaddingValues().calculateBottomPadding()
-                )
+                modifier = Modifier
+                    .height(
+                        64.dp + NavigationBarDefaults.windowInsets
+                            .asPaddingValues().calculateBottomPadding()
+                    )
+                    .drawBehind {
+                        val canvasHeight = size.height
+                        val canvasWidth = size.width
+                        if (dirtBitmap.height > 0) {
+                            val scale = canvasHeight / dirtBitmap.height
+                            val scaledWidth = dirtBitmap.width * scale
+
+                            var currentX = 0f
+                            while (currentX < canvasWidth) {
+                                drawImage(
+                                    image = dirtImageBitmap,
+                                    dstOffset = IntOffset(currentX.toInt(), 0),
+                                    dstSize = IntSize(scaledWidth.toInt(), canvasHeight.toInt())
+                                )
+                                currentX += scaledWidth
+                            }
+                        }
+                    },
+                containerColor = Color.Transparent
             ) {
                 titles.forEachIndexed { index, title ->
                     NavigationBarItem(
@@ -108,11 +161,12 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                         icon = {
                             Icon(
                                 painter = painterResource(icons[index]),
-                                contentDescription = title
+                                contentDescription = title,
+                                tint = if (selectedTab == index) Color(0xFFFFEE55) else Color.White
                             )
                         },
                         label = {
-                            Text(title)
+                            Text(title, color = if (selectedTab == index) Color(0xFFFFEE55) else Color.White)
                         }
                     )
                 }
