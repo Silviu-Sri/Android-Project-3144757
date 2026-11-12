@@ -119,9 +119,9 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
 
     val skyBitmaps = remember {
         listOf(
-            BitmapFactory.decodeResource(context.resources, R.drawable.sky_1),
-            BitmapFactory.decodeResource(context.resources, R.drawable.sky_2),
-            BitmapFactory.decodeResource(context.resources, R.drawable.sky_3)
+            BitmapFactory.decodeResource(context.resources, R.drawable.clear_sky_1),
+            BitmapFactory.decodeResource(context.resources, R.drawable.clear_sky_2),
+            BitmapFactory.decodeResource(context.resources, R.drawable.clear_sky_3)
         ).map { it.asImageBitmap() }
     }
 
