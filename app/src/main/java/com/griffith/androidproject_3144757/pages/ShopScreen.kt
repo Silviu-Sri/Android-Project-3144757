@@ -32,12 +32,6 @@ fun ShopScreen() {
             .padding(16.dp)
     ) {
 
-        Text(
-            text = stringResource(R.string.gardening_shop),
-            style = MaterialTheme.typography.headlineMedium
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

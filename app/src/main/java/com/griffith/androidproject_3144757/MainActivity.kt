@@ -13,11 +13,23 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -97,6 +109,26 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         mutableIntStateOf(0)
     }
 
+    var currentDateTime by remember {
+        mutableStateOf(LocalDateTime.now())
+    }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            currentDateTime = LocalDateTime.now()
+            delay(1000L.milliseconds)
+        }
+    }
+
+    val dateFormatter = DateTimeFormatter.ofPattern(
+        "EEEE, dd MMMM yyyy",
+        LocalConfiguration.current.locales[0]
+    )
+
+    val timeFormatter = DateTimeFormatter.ofPattern(
+        "HH:mm:ss"
+    )
+
     val context = LocalContext.current
     val dirtBitmap = remember {
         BitmapFactory.decodeResource(context.resources, R.drawable.bottom_nav_dirt)
@@ -153,7 +185,34 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     }
             ) {
                 TopAppBar(
-                    title = { Text(titles[selectedTab], color = Color.White) },
+                    title = {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.Black.copy(alpha = 0.45f))
+                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                        ) {
+                            if (selectedTab == 0) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(1.dp)
+                                ) {
+                                    Text(
+                                        text = currentDateTime.format(dateFormatter),
+                                        fontSize = 12.sp,
+                                        color = Color.White
+                                    )
+                                    Text(
+                                        text = currentDateTime.format(timeFormatter),
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFFFFEE55)
+                                    )
+                                }
+                            } else {
+                                Text(titles[selectedTab], color = Color.White)
+                            }
+                        }
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent
                     )

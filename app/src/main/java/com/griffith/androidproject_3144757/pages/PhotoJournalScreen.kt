@@ -32,12 +32,6 @@ fun PhotoJournalScreen() {
             .padding(16.dp)
     ) {
 
-        Text(
-            text = stringResource(R.string.photo_journal),
-            style = MaterialTheme.typography.headlineMedium
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

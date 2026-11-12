@@ -41,12 +41,6 @@ fun SettingsScreen(onLanguageChange: (String) -> Unit) {
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
 
-        Text(
-            text = stringResource(R.string.settings),
-            style = MaterialTheme.typography.headlineMedium
-        )
-
-        HorizontalDivider()
 
         Text(
             text = stringResource(R.string.volume_level, volume.toInt()),
