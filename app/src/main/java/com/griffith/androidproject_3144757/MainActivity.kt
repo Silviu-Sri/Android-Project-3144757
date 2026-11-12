@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -104,6 +105,14 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         dirtBitmap.asImageBitmap()
     }
 
+    val skyBitmaps = remember {
+        listOf(
+            BitmapFactory.decodeResource(context.resources, R.drawable.sky_1),
+            BitmapFactory.decodeResource(context.resources, R.drawable.sky_2),
+            BitmapFactory.decodeResource(context.resources, R.drawable.sky_3)
+        ).map { it.asImageBitmap() }
+    }
+
     val titles = listOf(
         stringResource(R.string.plant),
         stringResource(R.string.shop),
@@ -119,12 +128,37 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(titles[selectedTab], color = MaterialTheme.colorScheme.onTertiary) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .drawBehind {
+                        val canvasHeight = size.height
+                        val canvasWidth = size.width
+                        var currentX = 0f
+                        var index = 0
+                        while (currentX < canvasWidth && skyBitmaps.isNotEmpty()) {
+                            val bmp = skyBitmaps[index % skyBitmaps.size]
+                            if (bmp.height > 0) {
+                                val scale = canvasHeight / bmp.height
+                                val scaledWidth = bmp.width * scale
+                                drawImage(
+                                    image = bmp,
+                                    dstOffset = IntOffset(currentX.toInt(), 0),
+                                    dstSize = IntSize(scaledWidth.toInt(), canvasHeight.toInt())
+                                )
+                                currentX += scaledWidth
+                            }
+                            index++
+                        }
+                    }
+            ) {
+                TopAppBar(
+                    title = { Text(titles[selectedTab], color = Color.White) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent
+                    )
                 )
-            )
+            }
         },
         bottomBar = {
             NavigationBar(
