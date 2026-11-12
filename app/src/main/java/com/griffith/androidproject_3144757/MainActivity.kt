@@ -196,6 +196,10 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                                 currentX += scaledWidth
                             }
                         }
+                        drawRect(
+                            color = Color.Black.copy(alpha = 0.4f),
+                            size = size
+                        )
                     },
                 containerColor = Color.Transparent
             ) {
