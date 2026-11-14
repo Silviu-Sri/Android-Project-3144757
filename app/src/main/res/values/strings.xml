@@ -17,4 +17,20 @@
     <string name="plant_picture">Plant picture</string>
     <string name="plant_growth_photo">Plant growth photo</string>
     <string name="tool">Tool</string>
+    <string name="weather_location" translatable="false">Tallaght</string>
+    <string name="weather_loading">Loading weather…</string>
+    <string name="weather_unavailable">Weather unavailable</string>
+    <string name="weather_day">Day</string>
+    <string name="weather_night">Night</string>
+    <string name="weather_temperature">%1$.1f °C</string>
+    <string name="weather_clear">Clear</string>
+    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_cloudy">Cloudy</string>
+    <string name="weather_fog">Foggy</string>
+    <string name="weather_drizzle">Drizzling</string>
+    <string name="weather_rain">Raining</string>
+    <string name="weather_freezing_rain">Freezing rain</string>
+    <string name="weather_snow">Snowing</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_unknown">Unknown conditions</string>
 </resources>

@@ -16,4 +16,19 @@
     <string name="plant_picture">Pflanzenbild</string>
     <string name="plant_growth_photo">Foto des Pflanzenwachstums</string>
     <string name="tool">Werkzeug</string>
+    <string name="weather_loading">Wetter wird geladen…</string>
+    <string name="weather_unavailable">Wetter nicht verfügbar</string>
+    <string name="weather_day">Tag</string>
+    <string name="weather_night">Nacht</string>
+    <string name="weather_temperature">%1$.1f °C</string>
+    <string name="weather_clear">Klar</string>
+    <string name="weather_partly_cloudy">Teilweise bewölkt</string>
+    <string name="weather_cloudy">Bewölkt</string>
+    <string name="weather_fog">Neblig</string>
+    <string name="weather_drizzle">Nieselregen</string>
+    <string name="weather_rain">Regen</string>
+    <string name="weather_freezing_rain">Gefrierender Regen</string>
+    <string name="weather_snow">Schnee</string>
+    <string name="weather_thunderstorm">Gewitter</string>
+    <string name="weather_unknown">Unbekannte Wetterlage</string>
 </resources>

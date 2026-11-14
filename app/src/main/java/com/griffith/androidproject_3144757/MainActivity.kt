@@ -67,9 +67,11 @@ import androidx.compose.ui.res.stringResource
 import com.griffith.androidproject_3144757.R
 
 import com.griffith.androidproject_3144757.pages.PlantScreen
+import com.griffith.androidproject_3144757.pages.PlantWeatherTitle
 import com.griffith.androidproject_3144757.pages.PhotoJournalScreen
 import com.griffith.androidproject_3144757.pages.SettingsScreen
 import com.griffith.androidproject_3144757.pages.ShopScreen
+import androidx.core.content.edit
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -91,7 +93,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 AndroidProject3144757Theme {
                     MainScreen(onLanguageChange = { language ->
-                        preferences.edit().putString("language", language).apply()
+                        preferences.edit { putString("language", language) }
                         languageTag = language
                     })
                 }
@@ -165,7 +167,11 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     }
             ) {
                 TopAppBar(
-                    title = { },
+                    title = {
+                        if (selectedTab == 0) {
+                            PlantWeatherTitle()
+                        }
+                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent
                     )
