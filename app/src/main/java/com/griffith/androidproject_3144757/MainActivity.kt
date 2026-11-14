@@ -29,6 +29,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlinx.coroutines.CancellationException
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import com.griffith.androidproject_3144757.pages.Weather
+import com.griffith.androidproject_3144757.pages.WeatherRepository
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -111,6 +118,29 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         mutableIntStateOf(0)
     }
 
+    var isDay by rememberSaveable { mutableStateOf(true) }
+    var weather by remember { mutableStateOf<Weather?>(null) }
+    var loading by remember { mutableStateOf(true) }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            while (true) {
+                loading = true
+                try {
+                    weather = WeatherRepository.fetch().also { isDay = it.isDay }
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (_: Exception) {
+                    weather = null
+                } finally {
+                    loading = false
+                }
+                delay(10.minutes)
+            }
+        }
+    }
+
     val context = LocalContext.current
     val dirtBitmap = remember {
         BitmapFactory.decodeResource(context.resources, R.drawable.bottom_nav_dirt)
@@ -119,12 +149,17 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         dirtBitmap.asImageBitmap()
     }
 
-    val skyBitmaps = remember {
-        listOf(
-            BitmapFactory.decodeResource(context.resources, R.drawable.clear_sky_1),
-            BitmapFactory.decodeResource(context.resources, R.drawable.clear_sky_2),
-            BitmapFactory.decodeResource(context.resources, R.drawable.clear_sky_3)
-        ).map { it.asImageBitmap() }
+    val skyBitmaps = remember(isDay) {
+        val skyResources = if (isDay) {
+            listOf(R.drawable.clear_sky_1, R.drawable.clear_sky_2, R.drawable.clear_sky_3)
+        } else {
+            listOf(
+                R.drawable._clear_sky_night_1,
+                R.drawable._clear_sky_night_2,
+                R.drawable._clear_sky_night_3
+            )
+        }
+        skyResources.map { BitmapFactory.decodeResource(context.resources, it).asImageBitmap() }
     }
 
     val titles = listOf(
@@ -169,7 +204,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                 TopAppBar(
                     title = {
                         if (selectedTab == 0) {
-                            PlantWeatherTitle()
+                            PlantWeatherTitle(weather = weather, loading = loading)
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(

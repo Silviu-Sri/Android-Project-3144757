@@ -8,20 +8,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
 import com.griffith.androidproject_3144757.R
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.delay
-import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun PlantScreen() {
@@ -34,29 +28,7 @@ fun PlantScreen() {
 }
 
 @Composable
-fun PlantWeatherTitle() {
-    var weather by remember { mutableStateOf<Weather?>(null) }
-    var loading by remember { mutableStateOf(true) }
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    LaunchedEffect(lifecycleOwner) {
-        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            while (true) {
-                loading = true
-                try {
-                    weather = WeatherRepository.fetch()
-                } catch (cancelled: CancellationException) {
-                    throw cancelled
-                } catch (_: Exception) {
-                    weather = null
-                } finally {
-                    loading = false
-                }
-                delay(10.minutes)
-            }
-        }
-    }
-
+fun PlantWeatherTitle(weather: Weather?, loading: Boolean) {
     val currentWeather = weather
     val heading = if (!loading && currentWeather != null) {
         stringResource(R.string.weather_location) + " · " +
