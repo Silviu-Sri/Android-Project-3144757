@@ -17,6 +17,10 @@ class PlantRepository(context: Context) {
             updated
         }
 
+    suspend fun read(): PlantState = withContext(Dispatchers.IO) {
+        load(System.currentTimeMillis())
+    }
+
     private fun load(now: Long): PlantState {
         if (!preferences.contains("updated")) return PlantState(lastUpdatedEpochMillis = now)
         return try {

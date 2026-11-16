@@ -75,6 +75,8 @@ import com.griffith.androidproject_3144757.R
 
 import com.griffith.androidproject_3144757.pages.PlantScreen
 import com.griffith.androidproject_3144757.pages.PlantWeatherTitle
+import com.griffith.androidproject_3144757.pages.PlantStatusRow
+import com.griffith.androidproject_3144757.model.PlantState
 import com.griffith.androidproject_3144757.pages.PhotoJournalScreen
 import com.griffith.androidproject_3144757.pages.SettingsScreen
 import com.griffith.androidproject_3144757.pages.ShopScreen
@@ -121,6 +123,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     var isDay by rememberSaveable { mutableStateOf(true) }
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }
+    var plantState by remember { mutableStateOf<PlantState?>(null) }
     val lifecycleOwner = LocalLifecycleOwner.current
     val contextForPlant = LocalContext.current.applicationContext
     val plantRepository = remember(contextForPlant) {
@@ -129,6 +132,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            plantState = plantRepository.read()
             while (true) {
                 loading = true
                 try {
@@ -141,7 +145,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     loading = false
                 }
                 try {
-                    plantRepository.update(weather)
+                    plantState = plantRepository.update(weather)
                 } catch (cancelled: CancellationException) {
                     throw cancelled
                 } catch (error: java.io.IOException) {
@@ -212,16 +216,21 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                         }
                     }
             ) {
-                TopAppBar(
-                    title = {
-                        if (selectedTab == 0) {
-                            PlantWeatherTitle(weather = weather, loading = loading)
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent
+                Column {
+                    TopAppBar(
+                        title = {
+                            if (selectedTab == 0) {
+                                PlantWeatherTitle(weather = weather, loading = loading)
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent
+                        )
                     )
-                )
+                    if (selectedTab == 0) {
+                        PlantStatusRow(plantState = plantState)
+                    }
+                }
             }
         },
         bottomBar = {

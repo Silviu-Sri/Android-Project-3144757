@@ -31,4 +31,9 @@
     <string name="weather_snow">Ninge</string>
     <string name="weather_thunderstorm">Furtună</string>
     <string name="weather_unknown">Condiții necunoscute</string>
+    <string name="plant_moisture">Umiditate</string>
+    <string name="plant_health">Sănătate</string>
+    <string name="plant_growth">Creștere</string>
+    <string name="plant_stat_loading">Se încarcă…</string>
+    <string name="plant_stat_percent">%1$.1f%%</string>
 </resources>

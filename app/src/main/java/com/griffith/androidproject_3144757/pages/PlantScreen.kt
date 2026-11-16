@@ -2,6 +2,13 @@ package com.griffith.androidproject_3144757.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.ui.graphics.Color
+import com.griffith.androidproject_3144757.model.PlantState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,6 +67,59 @@ fun PlantWeatherTitle(weather: Weather?, loading: Boolean) {
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Composable
+fun PlantStatusRow(plantState: PlantState?) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        PlantStat(
+            label = stringResource(R.string.plant_moisture),
+            value = plantState?.soilMoisturePercent,
+            color = Color(0xFF1565C0),
+            modifier = Modifier.weight(1f)
+        )
+        PlantStat(
+            label = stringResource(R.string.plant_health),
+            value = plantState?.healthPercent,
+            color = Color(0xFF2E7D32),
+            modifier = Modifier.weight(1f)
+        )
+        PlantStat(
+            label = stringResource(R.string.plant_growth),
+            value = plantState?.growthProgressPercent,
+            color = Color(0xFF795548),
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Composable
+private fun PlantStat(label: String, value: Float?, color: Color, modifier: Modifier) {
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(text = label, style = MaterialTheme.typography.labelMedium)
+            Text(
+                text = if (value == null) stringResource(R.string.plant_stat_loading)
+                    else stringResource(R.string.plant_stat_percent, value),
+                style = MaterialTheme.typography.labelLarge
+            )
+            LinearProgressIndicator(
+                progress = { (value ?: 0f) / 100f },
+                color = color,
+                modifier = Modifier.fillMaxWidth().height(4.dp)
             )
         }
     }
