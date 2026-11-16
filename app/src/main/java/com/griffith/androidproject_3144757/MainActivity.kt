@@ -122,6 +122,10 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }
     val lifecycleOwner = LocalLifecycleOwner.current
+    val contextForPlant = LocalContext.current.applicationContext
+    val plantRepository = remember(contextForPlant) {
+        com.griffith.androidproject_3144757.model.PlantRepository(contextForPlant)
+    }
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -135,6 +139,13 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     weather = null
                 } finally {
                     loading = false
+                }
+                try {
+                    plantRepository.update(weather)
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (error: java.io.IOException) {
+                    android.util.Log.e("PlantProgress", "Unable to save plant progress", error)
                 }
                 delay(10.minutes)
             }
