@@ -36,4 +36,14 @@
     <string name="plant_growth">Creștere</string>
     <string name="plant_stat_loading">Se încarcă…</string>
     <string name="plant_stat_percent">%1$.1f%%</string>
+    <string name="weather_location_setting">Locația vremii</string>
+    <string name="weather_use_current">Folosește locația curentă</string>
+    <string name="weather_location_explanation">Folosește locația aproximativă pentru vremea locală cât timp aplicația este deschisă. Locația este trimisă către Open-Meteo.</string>
+    <string name="weather_current_location">Locația curentă</string>
+    <string name="weather_location_unavailable">Locația sau vremea nu este disponibilă</string>
+    <string name="weather_permission_denied">Vremea locală necesită permisiunea de locație. O poți permite din setările aplicației.</string>
+    <string name="weather_app_settings">Deschide setările aplicației</string>
+    <string name="weather_continue">Continuă</string>
+    <string name="weather_cancel">Anulează</string>
+    <string name="weather_allow_location">Permite locația</string>
 </resources>

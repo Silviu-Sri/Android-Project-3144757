@@ -45,13 +45,14 @@ enum class WeatherCondition(@param:StringRes val label: Int) {
 }
 
 object WeatherRepository {
-    private const val ENDPOINT = "https://api.open-meteo.com/v1/forecast" +
-        "?latitude=53.2859&longitude=-6.3734" +
-        "&current=temperature_2m,is_day,weather_code" +
-        "&temperature_unit=celsius&timezone=Europe%2FDublin"
-
-    suspend fun fetch(): Weather = withContext(Dispatchers.IO) {
-        val connection = URL(ENDPOINT).openConnection() as HttpURLConnection
+    suspend fun fetch(latitude: Double = 53.2859, longitude: Double = -6.3734): Weather = withContext(Dispatchers.IO) {
+        require(latitude.isFinite() && latitude in -90.0..90.0)
+        require(longitude.isFinite() && longitude in -180.0..180.0)
+        val endpoint = "https://api.open-meteo.com/v1/forecast" +
+            "?latitude=$latitude&longitude=$longitude" +
+            "&current=temperature_2m,is_day,weather_code" +
+            "&temperature_unit=celsius&timezone=auto"
+        val connection = URL(endpoint).openConnection() as HttpURLConnection
         try {
             connection.connectTimeout = 10_000
             connection.readTimeout = 10_000

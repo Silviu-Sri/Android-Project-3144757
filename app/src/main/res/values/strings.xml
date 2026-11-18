@@ -38,4 +38,14 @@
     <string name="plant_growth">Growth</string>
     <string name="plant_stat_loading">Loading…</string>
     <string name="plant_stat_percent">%1$.1f%%</string>
+    <string name="weather_location_setting">Weather location</string>
+    <string name="weather_use_current">Use current location</string>
+    <string name="weather_location_explanation">Uses your approximate location for local weather while the app is open. Your location is sent to Open-Meteo.</string>
+    <string name="weather_current_location">Current location</string>
+    <string name="weather_location_unavailable">Location or weather unavailable</string>
+    <string name="weather_permission_denied">Location permission is needed for local weather. You can allow it in app settings.</string>
+    <string name="weather_app_settings">Open app settings</string>
+    <string name="weather_continue">Continue</string>
+    <string name="weather_cancel">Cancel</string>
+    <string name="weather_allow_location">Allow location</string>
 </resources>

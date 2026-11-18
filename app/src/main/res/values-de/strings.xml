@@ -36,4 +36,14 @@
     <string name="plant_growth">Wachstum</string>
     <string name="plant_stat_loading">Wird geladen…</string>
     <string name="plant_stat_percent">%1$.1f%%</string>
+    <string name="weather_location_setting">Wetterstandort</string>
+    <string name="weather_use_current">Aktuellen Standort verwenden</string>
+    <string name="weather_location_explanation">Verwendet Ihren ungefähren Standort für das lokale Wetter, während die App geöffnet ist. Der Standort wird an Open-Meteo gesendet.</string>
+    <string name="weather_current_location">Aktueller Standort</string>
+    <string name="weather_location_unavailable">Standort oder Wetter nicht verfügbar</string>
+    <string name="weather_permission_denied">Für lokales Wetter ist eine Standortberechtigung erforderlich. Sie können diese in den App-Einstellungen erlauben.</string>
+    <string name="weather_app_settings">App-Einstellungen öffnen</string>
+    <string name="weather_continue">Weiter</string>
+    <string name="weather_cancel">Abbrechen</string>
+    <string name="weather_allow_location">Standort erlauben</string>
 </resources>

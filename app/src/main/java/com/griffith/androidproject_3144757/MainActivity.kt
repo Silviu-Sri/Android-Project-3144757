@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.LocalActivityResultRegistryOwner
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
@@ -36,6 +38,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import com.griffith.androidproject_3144757.pages.Weather
 import com.griffith.androidproject_3144757.pages.WeatherRepository
+import com.griffith.androidproject_3144757.pages.currentWeatherLocation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -98,7 +101,9 @@ class MainActivity : ComponentActivity() {
 
             CompositionLocalProvider(
                 LocalContext provides localizedContext,
-                LocalConfiguration provides configuration
+                LocalConfiguration provides configuration,
+                LocalActivity provides this@MainActivity,
+                LocalActivityResultRegistryOwner provides this@MainActivity
             ) {
                 AndroidProject3144757Theme {
                     MainScreen(onLanguageChange = { language ->
@@ -120,6 +125,11 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         mutableIntStateOf(0)
     }
 
+    val weatherPreferences = LocalContext.current.getSharedPreferences("settings", android.content.Context.MODE_PRIVATE)
+    var useCurrentLocation by rememberSaveable {
+        mutableStateOf(weatherPreferences.getBoolean("weather_use_current_location", false))
+    }
+    var locationRefresh by remember { mutableIntStateOf(0) }
     var isDay by rememberSaveable { mutableStateOf(true) }
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }
@@ -130,13 +140,23 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         com.griffith.androidproject_3144757.model.PlantRepository(contextForPlant)
     }
 
-    LaunchedEffect(lifecycleOwner) {
+    LaunchedEffect(lifecycleOwner, useCurrentLocation, locationRefresh) {
+        weather = null
+        loading = true
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             plantState = plantRepository.read()
             while (true) {
                 loading = true
                 try {
-                    weather = WeatherRepository.fetch().also { isDay = it.isDay }
+                    val result = if (useCurrentLocation) {
+                        val location = currentWeatherLocation(contextForPlant)
+                            ?: throw java.io.IOException("Location unavailable")
+                        WeatherRepository.fetch(location.latitude, location.longitude)
+                    } else {
+                        WeatherRepository.fetch()
+                    }
+                    weather = result
+                    isDay = result.isDay
                 } catch (cancelled: CancellationException) {
                     throw cancelled
                 } catch (_: Exception) {
@@ -220,7 +240,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     TopAppBar(
                         title = {
                             if (selectedTab == 0) {
-                                PlantWeatherTitle(weather = weather, loading = loading)
+                                PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation)
                             }
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
@@ -298,7 +318,15 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                 0 -> PlantScreen()
                 1 -> ShopScreen()
                 2 -> PhotoJournalScreen()
-                3 -> SettingsScreen(onLanguageChange)
+                3 -> SettingsScreen(
+                    onLanguageChange = onLanguageChange,
+                    useCurrentLocation = useCurrentLocation,
+                    onWeatherLocationChange = { enabled ->
+                        weatherPreferences.edit { putBoolean("weather_use_current_location", enabled) }
+                        useCurrentLocation = enabled
+                        locationRefresh++
+                    }
+                )
             }
         }
     }

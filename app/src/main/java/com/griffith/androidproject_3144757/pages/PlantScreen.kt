@@ -35,20 +35,21 @@ fun PlantScreen() {
 }
 
 @Composable
-fun PlantWeatherTitle(weather: Weather?, loading: Boolean) {
+fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: Boolean) {
+    val locationName = stringResource(if (useCurrentLocation) R.string.weather_current_location else R.string.weather_location)
     val currentWeather = weather
     val heading = if (!loading && currentWeather != null) {
-        stringResource(R.string.weather_location) + " · " +
+        locationName + " · " +
             stringResource(R.string.weather_temperature, currentWeather.temperatureCelsius)
     } else {
-        stringResource(R.string.weather_location)
+        locationName
     }
     val conditions = when {
         loading -> stringResource(R.string.weather_loading)
         currentWeather != null ->
             stringResource(if (currentWeather.isDay) R.string.weather_day else R.string.weather_night) +
                 " · " + stringResource(currentWeather.condition.label)
-        else -> stringResource(R.string.weather_unavailable)
+        else -> stringResource(if (useCurrentLocation) R.string.weather_location_unavailable else R.string.weather_unavailable)
     }
 
     Surface(
