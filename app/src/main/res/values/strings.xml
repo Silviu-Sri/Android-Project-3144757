@@ -48,4 +48,7 @@
     <string name="weather_continue">Continue</string>
     <string name="weather_cancel">Cancel</string>
     <string name="weather_allow_location">Allow location</string>
+    <string name="plant_care">Plant care</string>
+    <string name="plant_collapse">Collapse</string>
+    <string name="plant_expand">Expand</string>
 </resources>

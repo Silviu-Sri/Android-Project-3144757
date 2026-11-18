@@ -1,12 +1,24 @@
 package com.griffith.androidproject_3144757.pages
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import com.griffith.androidproject_3144757.model.PlantState
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,13 +37,41 @@ import androidx.compose.ui.unit.dp
 import com.griffith.androidproject_3144757.R
 
 @Composable
-fun PlantScreen() {
-    Image(
-        painter = painterResource(id = R.drawable.plant_image_3),
-        contentDescription = stringResource(R.string.plant_picture),
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
-    )
+fun PlantScreen(plantState: PlantState?) {
+    var expanded by rememberSaveable { mutableStateOf(true) }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.plant_image_3),
+            contentDescription = stringResource(R.string.plant_picture),
+            modifier = Modifier.fillMaxSize().background(Color(0xFF87CEFA)),
+            contentScale = ContentScale.Fit
+        )
+        Surface(
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
+            color = Color(0xFFEDF5E6)
+        ) {
+            Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(stringResource(R.string.plant_care), style = MaterialTheme.typography.titleSmall)
+                    TextButton(onClick = { expanded = !expanded }) {
+                        Text(stringResource(if (expanded) R.string.plant_collapse else R.string.plant_expand))
+                        Icon(
+                            imageVector = if (expanded) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+                            contentDescription = null
+                        )
+                    }
+                }
+                if (expanded) {
+                    PlantStatusRow(plantState = plantState)
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -76,7 +116,7 @@ fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: B
 @Composable
 fun PlantStatusRow(plantState: PlantState?) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         PlantStat(
@@ -104,7 +144,7 @@ fun PlantStatusRow(plantState: PlantState?) {
 private fun PlantStat(label: String, value: Float?, color: Color, modifier: Modifier) {
     Surface(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        color = Color(0xFFEDF5E6),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(

@@ -46,4 +46,7 @@
     <string name="weather_continue">Continuă</string>
     <string name="weather_cancel">Anulează</string>
     <string name="weather_allow_location">Permite locația</string>
+    <string name="plant_care">Îngrijirea plantei</string>
+    <string name="plant_collapse">Restrânge</string>
+    <string name="plant_expand">Extinde</string>
 </resources>

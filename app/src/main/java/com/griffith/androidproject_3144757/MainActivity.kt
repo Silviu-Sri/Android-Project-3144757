@@ -78,7 +78,6 @@ import com.griffith.androidproject_3144757.R
 
 import com.griffith.androidproject_3144757.pages.PlantScreen
 import com.griffith.androidproject_3144757.pages.PlantWeatherTitle
-import com.griffith.androidproject_3144757.pages.PlantStatusRow
 import com.griffith.androidproject_3144757.model.PlantState
 import com.griffith.androidproject_3144757.pages.PhotoJournalScreen
 import com.griffith.androidproject_3144757.pages.SettingsScreen
@@ -236,21 +235,16 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                         }
                     }
             ) {
-                Column {
-                    TopAppBar(
-                        title = {
-                            if (selectedTab == 0) {
-                                PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation)
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent
-                        )
+                TopAppBar(
+                    title = {
+                        if (selectedTab == 0) {
+                            PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation)
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent
                     )
-                    if (selectedTab == 0) {
-                        PlantStatusRow(plantState = plantState)
-                    }
-                }
+                )
             }
         },
         bottomBar = {
@@ -315,7 +309,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> PlantScreen()
+                0 -> PlantScreen(plantState = plantState)
                 1 -> ShopScreen()
                 2 -> PhotoJournalScreen()
                 3 -> SettingsScreen(
