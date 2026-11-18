@@ -32,6 +32,7 @@
     <string name="weather_thunderstorm">Gewitter</string>
     <string name="weather_unknown">Unbekannte Wetterlage</string>
     <string name="plant_moisture">Feuchtigkeit</string>
+    <string name="plant_happiness">Zufriedenheit</string>
     <string name="plant_health">Gesundheit</string>
     <string name="plant_growth">Wachstum</string>
     <string name="plant_stat_loading">Wird geladen…</string>

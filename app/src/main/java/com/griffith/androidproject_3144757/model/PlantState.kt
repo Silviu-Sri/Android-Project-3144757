@@ -4,7 +4,8 @@ data class PlantState(
     val soilMoisturePercent: Float = 60f,
     val healthPercent: Float = 100f,
     val growthProgressPercent: Float = 0f,
-    val lastUpdatedEpochMillis: Long = System.currentTimeMillis()
+    val lastUpdatedEpochMillis: Long = System.currentTimeMillis(),
+    val happinessPercent: Float = 80f
 ) {
     init {
         require(soilMoisturePercent in 0f..100f) {
@@ -15,6 +16,9 @@ data class PlantState(
         }
         require(growthProgressPercent in 0f..100f) {
             "Growth progress must be between 0 and 100 percent"
+        }
+        require(happinessPercent in 0f..100f) {
+            "Happiness must be between 0 and 100 percent"
         }
         require(lastUpdatedEpochMillis >= 0L) {
             "Last update time must be a nonnegative epoch timestamp in milliseconds"

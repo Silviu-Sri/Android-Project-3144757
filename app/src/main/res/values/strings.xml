@@ -34,6 +34,7 @@
     <string name="weather_thunderstorm">Thunderstorm</string>
     <string name="weather_unknown">Unknown conditions</string>
     <string name="plant_moisture">Moisture</string>
+    <string name="plant_happiness">Happiness</string>
     <string name="plant_health">Health</string>
     <string name="plant_growth">Growth</string>
     <string name="plant_stat_loading">Loading…</string>

@@ -32,6 +32,7 @@
     <string name="weather_thunderstorm">Furtună</string>
     <string name="weather_unknown">Condiții necunoscute</string>
     <string name="plant_moisture">Umiditate</string>
+    <string name="plant_happiness">Fericire</string>
     <string name="plant_health">Sănătate</string>
     <string name="plant_growth">Creștere</string>
     <string name="plant_stat_loading">Se încarcă…</string>

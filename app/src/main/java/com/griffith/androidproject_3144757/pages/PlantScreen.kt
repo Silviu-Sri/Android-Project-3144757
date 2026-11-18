@@ -115,28 +115,35 @@ fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: B
 
 @Composable
 fun PlantStatusRow(plantState: PlantState?) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        PlantStat(
-            label = stringResource(R.string.plant_moisture),
-            value = plantState?.soilMoisturePercent,
-            color = Color(0xFF1565C0),
-            modifier = Modifier.weight(1f)
-        )
-        PlantStat(
-            label = stringResource(R.string.plant_health),
-            value = plantState?.healthPercent,
-            color = Color(0xFF2E7D32),
-            modifier = Modifier.weight(1f)
-        )
-        PlantStat(
-            label = stringResource(R.string.plant_growth),
-            value = plantState?.growthProgressPercent,
-            color = Color(0xFF795548),
-            modifier = Modifier.weight(1f)
-        )
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            PlantStat(
+                label = stringResource(R.string.plant_moisture),
+                value = plantState?.soilMoisturePercent,
+                color = Color(0xFF1565C0),
+                modifier = Modifier.weight(1f)
+            )
+            PlantStat(
+                label = stringResource(R.string.plant_health),
+                value = plantState?.healthPercent,
+                color = Color(0xFF2E7D32),
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            PlantStat(
+                label = stringResource(R.string.plant_happiness),
+                value = plantState?.happinessPercent,
+                color = Color(0xFFD16937),
+                modifier = Modifier.weight(1f)
+            )
+            PlantStat(
+                label = stringResource(R.string.plant_growth),
+                value = plantState?.growthProgressPercent,
+                color = Color(0xFF795548),
+                modifier = Modifier.weight(1f)
+            )
+        }
     }
 }
 

@@ -28,7 +28,8 @@ class PlantRepository(context: Context) {
                 preferences.getFloat("moisture", 60f),
                 preferences.getFloat("health", 100f),
                 preferences.getFloat("growth", 0f),
-                preferences.getLong("updated", now)
+                preferences.getLong("updated", now),
+                preferences.getFloat("happiness", 80f)
             )
         } catch (_: IllegalArgumentException) {
             PlantState(lastUpdatedEpochMillis = now)
@@ -42,6 +43,7 @@ class PlantRepository(context: Context) {
             .putFloat("moisture", state.soilMoisturePercent)
             .putFloat("health", state.healthPercent)
             .putFloat("growth", state.growthProgressPercent)
+            .putFloat("happiness", state.happinessPercent)
             .putLong("updated", state.lastUpdatedEpochMillis)
             .commit()
         if (!saved) throw IOException("Unable to save plant progress")
