@@ -1,6 +1,7 @@
 package com.griffith.androidproject_3144757.pages
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,7 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.griffith.androidproject_3144757.R
 
 @Composable
-fun ShopScreen() {
+fun ShopScreen(
+    sunsCount: Int = 50,
+    onBuyItem: ((cost: Int) -> Unit)? = null
+) {
 
     val shopItems = listOf(
         R.drawable.tool_01_trowel to 20,
@@ -40,7 +44,7 @@ fun ShopScreen() {
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = stringResource(R.string.coin_balance, 50),
+                text = stringResource(R.string.coin_balance, sunsCount),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -60,7 +64,11 @@ fun ShopScreen() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(shopItems) { (image, price) ->
+                val canAfford = sunsCount >= price
                 Column(
+                    modifier = Modifier.clickable(enabled = canAfford && onBuyItem != null) {
+                        onBuyItem?.invoke(price)
+                    },
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Image(

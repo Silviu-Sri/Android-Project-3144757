@@ -53,6 +53,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -133,6 +135,8 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }
     var plantState by remember { mutableStateOf<PlantState?>(null) }
+    val coroutineScope = rememberCoroutineScope()
+    val currentSuns = plantState?.suns ?: 50
     val lifecycleOwner = LocalLifecycleOwner.current
     val contextForPlant = LocalContext.current.applicationContext
     val plantRepository = remember(contextForPlant) {
@@ -309,8 +313,18 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> PlantScreen(plantState = plantState)
-                1 -> ShopScreen()
+                0 -> PlantScreen(plantState = plantState, sunsCount = currentSuns)
+                1 -> ShopScreen(
+                    sunsCount = currentSuns,
+                    onBuyItem = { cost ->
+                        val remaining = currentSuns - cost
+                        if (remaining >= 0) {
+                            coroutineScope.launch {
+                                plantState = plantRepository.updateSuns(remaining)
+                            }
+                        }
+                    }
+                )
                 2 -> PhotoJournalScreen()
                 3 -> SettingsScreen(
                     onLanguageChange = onLanguageChange,

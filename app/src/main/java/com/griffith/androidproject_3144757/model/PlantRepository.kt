@@ -21,6 +21,13 @@ class PlantRepository(context: Context) {
         load(System.currentTimeMillis())
     }
 
+    suspend fun updateSuns(suns: Int): PlantState = withContext(Dispatchers.IO) {
+        val current = load(System.currentTimeMillis())
+        val updated = current.copy(suns = suns)
+        save(updated)
+        updated
+    }
+
     private fun load(now: Long): PlantState {
         if (!preferences.contains("updated")) return PlantState(lastUpdatedEpochMillis = now)
         return try {
@@ -29,7 +36,8 @@ class PlantRepository(context: Context) {
                 preferences.getFloat("health", 100f),
                 preferences.getFloat("growth", 0f),
                 preferences.getLong("updated", now),
-                preferences.getFloat("happiness", 80f)
+                preferences.getFloat("happiness", 80f),
+                preferences.getInt("suns", 50)
             )
         } catch (_: IllegalArgumentException) {
             PlantState(lastUpdatedEpochMillis = now)
@@ -44,6 +52,7 @@ class PlantRepository(context: Context) {
             .putFloat("health", state.healthPercent)
             .putFloat("growth", state.growthProgressPercent)
             .putFloat("happiness", state.happinessPercent)
+            .putInt("suns", state.suns)
             .putLong("updated", state.lastUpdatedEpochMillis)
             .commit()
         if (!saved) throw IOException("Unable to save plant progress")
