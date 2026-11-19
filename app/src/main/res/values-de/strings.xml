@@ -10,8 +10,8 @@
     <string name="track_growth">Verfolge das Wachstum deiner Pflanzen</string>
     <string name="volume_level">Lautstärke: %1$d%%</string>
     <string name="gardening_shop">Gartenshop</string>
-    <string name="coin_balance">Du hast %1$d Münzen</string>
-    <string name="coin_price">%1$d Münzen</string>
+    <string name="coin_balance">Du hast %1$d</string>
+    <string name="coin_price">%1$d</string>
     <string name="plant_age">%1$d Tage alt</string>
     <string name="plant_picture">Pflanzenbild</string>
     <string name="plant_growth_photo">Foto des Pflanzenwachstums</string>

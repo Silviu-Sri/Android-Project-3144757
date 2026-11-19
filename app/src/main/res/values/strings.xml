@@ -11,8 +11,8 @@
     <string name="app_name" translatable="false">Android Project-3144757</string>
     <string name="volume_level">Volume: %1$d%%</string>
     <string name="gardening_shop">Gardening Shop</string>
-    <string name="coin_balance">You have %1$d coins</string>
-    <string name="coin_price">%1$d coins</string>
+    <string name="coin_balance">You have %1$d</string>
+    <string name="coin_price">%1$d</string>
     <string name="plant_age">%1$d days old</string>
     <string name="plant_picture">Plant picture</string>
     <string name="plant_growth_photo">Plant growth photo</string>
