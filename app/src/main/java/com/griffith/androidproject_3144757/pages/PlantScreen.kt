@@ -73,7 +73,7 @@ fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50) {
                                 color = MaterialTheme.colorScheme.primary
                             )
                             Icon(
-                                painter = painterResource(id = R.drawable.sun),
+                                painter = painterResource(id = R.drawable.leaf),
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp),
                                 tint = MaterialTheme.colorScheme.primary

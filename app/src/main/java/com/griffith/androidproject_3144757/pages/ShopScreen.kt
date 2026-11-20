@@ -50,7 +50,7 @@ fun ShopScreen(
                 color = MaterialTheme.colorScheme.primary
             )
             Icon(
-                painter = painterResource(id = R.drawable.sun),
+                painter = painterResource(id = R.drawable.leaf),
                 contentDescription = null,
                 modifier = Modifier.size(18.dp),
                 tint = MaterialTheme.colorScheme.primary
@@ -100,7 +100,7 @@ fun ShopScreen(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Icon(
-                                painter = painterResource(id = R.drawable.sun),
+                                painter = painterResource(id = R.drawable.leaf),
                                 contentDescription = null,
                                 modifier = Modifier.size(16.dp),
                                 tint = MaterialTheme.colorScheme.primary
