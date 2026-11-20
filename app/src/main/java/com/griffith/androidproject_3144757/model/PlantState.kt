@@ -6,7 +6,8 @@ data class PlantState(
     val growthProgressPercent: Float = 0f,
     val lastUpdatedEpochMillis: Long = System.currentTimeMillis(),
     val happinessPercent: Float = 80f,
-    val suns: Int = 50
+    val suns: Int = 50,
+    val inventory: Map<String, Int> = emptyMap()
 ) {
     init {
         require(soilMoisturePercent in 0f..100f) {
@@ -26,6 +27,9 @@ data class PlantState(
         }
         require(suns >= 0) {
             "Sun balance cannot be negative"
+        }
+        require(inventory.values.all { it >= 0 }) {
+            "Inventory quantities cannot be negative"
         }
     }
 }

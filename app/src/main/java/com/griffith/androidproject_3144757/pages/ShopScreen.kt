@@ -21,14 +21,15 @@ import com.griffith.androidproject_3144757.R
 @Composable
 fun ShopScreen(
     sunsCount: Int = 50,
-    onBuyItem: ((cost: Int) -> Unit)? = null
+    inventory: Map<String, Int> = emptyMap(),
+    onBuyItem: ((itemId: String, cost: Int) -> Unit)? = null
 ) {
 
     val shopItems = listOf(
-        R.drawable.tool_01_trowel to 20,
-        R.drawable.tool_02_scissors to 10,
-        R.drawable.tool_03_watering_can to 35,
-        R.drawable.tool_04_speaker to 50
+        Triple("trowel", R.drawable.tool_01_trowel, 20),
+        Triple("scissors", R.drawable.tool_02_scissors, 10),
+        Triple("watering_can", R.drawable.tool_03_watering_can, 35),
+        Triple("speaker", R.drawable.tool_04_speaker, 50)
     )
 
     Column(
@@ -63,11 +64,11 @@ fun ShopScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(shopItems) { (image, price) ->
+            items(shopItems) { (itemId, image, price) ->
                 val canAfford = sunsCount >= price
                 Column(
                     modifier = Modifier.clickable(enabled = canAfford && onBuyItem != null) {
-                        onBuyItem?.invoke(price)
+                        onBuyItem?.invoke(itemId, price)
                     },
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -75,25 +76,36 @@ fun ShopScreen(
                         painter = painterResource(id = image),
                         contentDescription = stringResource(R.string.tool),
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(0.9f)
+                            .align(Alignment.CenterHorizontally)
                             .aspectRatio(1f)
                             .clip(RoundedCornerShape(16.dp)),
                         contentScale = ContentScale.Crop
                     )
                     Row(
+                        modifier = Modifier.fillMaxWidth(0.9f).align(Alignment.CenterHorizontally),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = stringResource(R.string.coin_price, price),
+                            text = stringResource(R.string.shop_owned, inventory[itemId] ?: 0),
                             style = MaterialTheme.typography.bodyMedium
                         )
-                        Icon(
-                            painter = painterResource(id = R.drawable.sun),
-                            contentDescription = null,
-                            modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.coin_price, price),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.sun),
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                 }
             }

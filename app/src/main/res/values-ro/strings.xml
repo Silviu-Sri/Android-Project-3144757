@@ -50,4 +50,5 @@
     <string name="plant_care">Îngrijirea plantei</string>
     <string name="plant_collapse">Restrânge</string>
     <string name="plant_expand">Extinde</string>
+    <string name="shop_owned">Deținute: %1$d</string>
 </resources>

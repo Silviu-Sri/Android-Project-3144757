@@ -52,4 +52,5 @@
     <string name="plant_care">Plant care</string>
     <string name="plant_collapse">Collapse</string>
     <string name="plant_expand">Expand</string>
+    <string name="shop_owned">Owned: %1$d</string>
 </resources>

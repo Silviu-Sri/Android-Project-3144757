@@ -50,4 +50,5 @@
     <string name="plant_care">Pflanzenpflege</string>
     <string name="plant_collapse">Einklappen</string>
     <string name="plant_expand">Ausklappen</string>
+    <string name="shop_owned">Besitz: %1$d</string>
 </resources>

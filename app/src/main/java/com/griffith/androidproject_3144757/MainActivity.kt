@@ -316,11 +316,13 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                 0 -> PlantScreen(plantState = plantState, sunsCount = currentSuns)
                 1 -> ShopScreen(
                     sunsCount = currentSuns,
-                    onBuyItem = { cost ->
-                        val remaining = currentSuns - cost
-                        if (remaining >= 0) {
-                            coroutineScope.launch {
-                                plantState = plantRepository.updateSuns(remaining)
+                    inventory = plantState?.inventory ?: emptyMap(),
+                    onBuyItem = if (plantState == null) null else { itemId, cost ->
+                        coroutineScope.launch {
+                            try {
+                                plantState = plantRepository.buyItem(itemId, cost)
+                            } catch (error: java.io.IOException) {
+                                android.util.Log.e("PlantProgress", "Unable to save purchase", error)
                             }
                         }
                     }
