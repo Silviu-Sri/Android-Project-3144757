@@ -39,7 +39,7 @@ import com.griffith.androidproject_3144757.R
 
 @Composable
 fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50) {
-    var expanded by rememberSaveable { mutableStateOf(true) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
