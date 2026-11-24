@@ -95,6 +95,7 @@ class MainActivity : ComponentActivity() {
             var languageTag by rememberSaveable {
                 mutableStateOf(preferences.getString("language", resources.configuration.locales[0].toLanguageTag())!!)
             }
+            var languageChosen by rememberSaveable { mutableStateOf(preferences.contains("language")) }
             val configuration = Configuration(LocalConfiguration.current).apply {
                 setLocale(Locale.forLanguageTag(languageTag))
             }
@@ -107,10 +108,32 @@ class MainActivity : ComponentActivity() {
                 LocalActivityResultRegistryOwner provides this@MainActivity
             ) {
                 AndroidProject3144757Theme {
-                    MainScreen(onLanguageChange = { language ->
-                        preferences.edit { putString("language", language) }
-                        languageTag = language
-                    })
+                    if (!languageChosen) {
+                        androidx.compose.material3.AlertDialog(
+                            onDismissRequest = {},
+                            title = { Text(stringResource(R.string.choose_language)) },
+                            text = {
+                                Column {
+                                    listOf("en" to "English", "ro" to "Română", "de" to "Deutsch").forEach { (code, label) ->
+                                        androidx.compose.material3.TextButton(
+                                            onClick = {
+                                                preferences.edit { putString("language", code) }
+                                                languageTag = code
+                                                languageChosen = true
+                                            },
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) { Text(label) }
+                                    }
+                                }
+                            },
+                            confirmButton = {}
+                        )
+                    } else {
+                        MainScreen(onLanguageChange = { language ->
+                            preferences.edit { putString("language", language) }
+                            languageTag = language
+                        })
+                    }
                 }
             }
         }

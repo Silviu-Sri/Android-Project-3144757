@@ -59,4 +59,5 @@
     <string name="plant_location_search">Caută o locație</string>
     <string name="plant_location_error">Căutarea a eșuat. Verifică conexiunea și încearcă din nou.</string>
     <string name="plant_location_empty">Nu s-au găsit locații. Încearcă o altă căutare.</string>
+    <string name="choose_language">Alege limba</string>
 </resources>

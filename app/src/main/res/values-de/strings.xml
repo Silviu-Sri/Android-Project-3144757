@@ -59,4 +59,5 @@
     <string name="plant_location_search">Ort suchen</string>
     <string name="plant_location_error">Suche fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut.</string>
     <string name="plant_location_empty">Keine Orte gefunden. Versuche eine andere Suche.</string>
+    <string name="choose_language">Wähle deine Sprache</string>
 </resources>
