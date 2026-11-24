@@ -135,6 +135,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }
     var plantState by remember { mutableStateOf<PlantState?>(null) }
+    val plantImageResource = R.drawable.plant_image_3
     val coroutineScope = rememberCoroutineScope()
     val currentSuns = plantState?.suns ?: 50
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -313,7 +314,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> PlantScreen(plantState = plantState, sunsCount = currentSuns)
+                0 -> PlantScreen(plantState = plantState, sunsCount = currentSuns, plantImageResource = plantImageResource)
                 1 -> ShopScreen(
                     sunsCount = currentSuns,
                     inventory = plantState?.inventory ?: emptyMap(),
@@ -327,7 +328,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                         }
                     }
                 )
-                2 -> PhotoJournalScreen()
+                2 -> PhotoJournalScreen(plantImageResource = plantImageResource)
                 3 -> SettingsScreen(
                     onLanguageChange = onLanguageChange,
                     useCurrentLocation = useCurrentLocation,

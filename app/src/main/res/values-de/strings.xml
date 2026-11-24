@@ -51,4 +51,7 @@
     <string name="plant_collapse">Einklappen</string>
     <string name="plant_expand">Ausklappen</string>
     <string name="shop_owned">Besitz: %1$d</string>
+    <string name="journal_take_photo">Foto aufnehmen</string>
+    <string name="journal_photo_description">Pflanzenfoto %1$d im Tagebuch</string>
+    <string name="journal_save_error">Das Foto konnte nicht gespeichert werden. Bitte versuche es erneut.</string>
 </resources>

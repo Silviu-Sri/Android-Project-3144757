@@ -51,4 +51,7 @@
     <string name="plant_collapse">Restrânge</string>
     <string name="plant_expand">Extinde</string>
     <string name="shop_owned">Deținute: %1$d</string>
+    <string name="journal_take_photo">Fă o fotografie</string>
+    <string name="journal_photo_description">Fotografia plantei %1$d din jurnal</string>
+    <string name="journal_save_error">Fotografia nu a putut fi salvată. Încearcă din nou.</string>
 </resources>

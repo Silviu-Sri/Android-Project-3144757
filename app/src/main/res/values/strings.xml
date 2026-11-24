@@ -53,4 +53,7 @@
     <string name="plant_collapse">Collapse</string>
     <string name="plant_expand">Expand</string>
     <string name="shop_owned">Owned: %1$d</string>
+    <string name="journal_take_photo">Take photo</string>
+    <string name="journal_photo_description">Plant journal photo %1$d</string>
+    <string name="journal_save_error">Couldn’t save the photo. Please try again.</string>
 </resources>

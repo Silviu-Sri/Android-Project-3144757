@@ -38,12 +38,12 @@ import androidx.compose.ui.unit.dp
 import com.griffith.androidproject_3144757.R
 
 @Composable
-fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50) {
+fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50, plantImageResource: Int = R.drawable.plant_image_3) {
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.plant_image_3),
+            painter = painterResource(id = plantImageResource),
             contentDescription = stringResource(R.string.plant_picture),
             modifier = Modifier.fillMaxSize().background(Color(0xFF87CEFA)),
             contentScale = ContentScale.Fit
