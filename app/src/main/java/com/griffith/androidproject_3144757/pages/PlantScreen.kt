@@ -97,8 +97,8 @@ fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50, plantImageResource
 }
 
 @Composable
-fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: Boolean) {
-    val locationName = stringResource(if (useCurrentLocation) R.string.weather_current_location else R.string.weather_location)
+fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: Boolean, fixedLocationName: String) {
+    val locationName = if (useCurrentLocation) stringResource(R.string.weather_current_location) else fixedLocationName
     val currentWeather = weather
     val heading = if (!loading && currentWeather != null) {
         locationName + " · " +

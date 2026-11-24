@@ -45,7 +45,7 @@ enum class WeatherCondition(@param:StringRes val label: Int) {
 }
 
 object WeatherRepository {
-    suspend fun fetch(latitude: Double = 53.2859, longitude: Double = -6.3734): Weather = withContext(Dispatchers.IO) {
+    suspend fun fetch(latitude: Double, longitude: Double): Weather = withContext(Dispatchers.IO) {
         require(latitude.isFinite() && latitude in -90.0..90.0)
         require(longitude.isFinite() && longitude in -180.0..180.0)
         val endpoint = "https://api.open-meteo.com/v1/forecast" +

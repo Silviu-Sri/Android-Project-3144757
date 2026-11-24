@@ -130,6 +130,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     var useCurrentLocation by rememberSaveable {
         mutableStateOf(weatherPreferences.getBoolean("weather_use_current_location", false))
     }
+    var fixedLocationName by remember { mutableStateOf(weatherPreferences.getString("plant_location_name", null)) }
     var locationRefresh by remember { mutableIntStateOf(0) }
     var isDay by rememberSaveable { mutableStateOf(true) }
     var weather by remember { mutableStateOf<Weather?>(null) }
@@ -144,7 +145,19 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         com.griffith.androidproject_3144757.model.PlantRepository(contextForPlant)
     }
 
-    LaunchedEffect(lifecycleOwner, useCurrentLocation, locationRefresh) {
+    if (fixedLocationName == null) {
+        com.griffith.androidproject_3144757.pages.PlantLocationDialog { place ->
+            weatherPreferences.edit {
+                putString("plant_location_name", place.name)
+                putString("plant_location_latitude", place.latitude.toString())
+                putString("plant_location_longitude", place.longitude.toString())
+            }
+            fixedLocationName = place.name
+            locationRefresh++
+        }
+    }
+
+    LaunchedEffect(lifecycleOwner, useCurrentLocation, locationRefresh, fixedLocationName) {
         weather = null
         loading = true
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -157,7 +170,11 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                             ?: throw java.io.IOException("Location unavailable")
                         WeatherRepository.fetch(location.latitude, location.longitude)
                     } else {
-                        WeatherRepository.fetch()
+                        val latitude = weatherPreferences.getString("plant_location_latitude", null)?.toDoubleOrNull()
+                            ?: throw java.io.IOException("Plant location not selected")
+                        val longitude = weatherPreferences.getString("plant_location_longitude", null)?.toDoubleOrNull()
+                            ?: throw java.io.IOException("Plant location not selected")
+                        WeatherRepository.fetch(latitude, longitude)
                     }
                     weather = result
                     isDay = result.isDay
@@ -244,7 +261,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                 TopAppBar(
                     title = {
                         if (selectedTab == 0) {
-                            PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation)
+                            PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation, fixedLocationName = fixedLocationName.orEmpty())
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(

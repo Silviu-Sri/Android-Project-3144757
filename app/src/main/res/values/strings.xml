@@ -17,7 +17,11 @@
     <string name="plant_picture">Plant picture</string>
     <string name="plant_growth_photo">Plant growth photo</string>
     <string name="tool">Tool</string>
-    <string name="weather_location" translatable="false">Tallaght</string>
+    <string name="plant_location_title">Where is your plant?</string>
+    <string name="plant_location_description">Choose a town or city for your plant’s fixed weather location. Your search is sent to Open-Meteo.</string>
+    <string name="plant_location_search">Search for a place</string>
+    <string name="plant_location_error">Couldn’t search for places. Check your connection and try again.</string>
+    <string name="plant_location_empty">No places found. Try another search.</string>
     <string name="weather_loading">Loading weather…</string>
     <string name="weather_unavailable">Weather unavailable</string>
     <string name="weather_day">Day</string>

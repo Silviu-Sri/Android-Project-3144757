@@ -54,4 +54,9 @@
     <string name="journal_take_photo">Fă o fotografie</string>
     <string name="journal_photo_description">Fotografia plantei %1$d din jurnal</string>
     <string name="journal_save_error">Fotografia nu a putut fi salvată. Încearcă din nou.</string>
+    <string name="plant_location_title">Unde este planta ta?</string>
+    <string name="plant_location_description">Alege un oraș pentru locația fixă a plantei. Căutarea este trimisă către Open-Meteo.</string>
+    <string name="plant_location_search">Caută o locație</string>
+    <string name="plant_location_error">Căutarea a eșuat. Verifică conexiunea și încearcă din nou.</string>
+    <string name="plant_location_empty">Nu s-au găsit locații. Încearcă o altă căutare.</string>
 </resources>
