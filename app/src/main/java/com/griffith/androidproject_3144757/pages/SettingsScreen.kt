@@ -50,17 +50,19 @@ fun SettingsScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
     val locationPermission = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { grants ->
+        val granted = grants[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
+            grants[Manifest.permission.ACCESS_FINE_LOCATION] == true
         permissionGranted = granted
         if (granted) onWeatherLocationChange(true) else showDenied = true
     }
     fun requestLocation() {
         when {
-            checkPermission() -> onWeatherLocationChange(true)
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> onWeatherLocationChange(true)
             activity?.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) == true ->
                 showRationale = true
-            else -> locationPermission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            else -> locationPermission.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
         }
     }
     if (showRationale) {
@@ -71,7 +73,7 @@ fun SettingsScreen(
             confirmButton = {
                 TextButton(onClick = {
                     showRationale = false
-                    locationPermission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    locationPermission.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
                 }) { Text(stringResource(R.string.weather_continue)) }
             },
             dismissButton = {

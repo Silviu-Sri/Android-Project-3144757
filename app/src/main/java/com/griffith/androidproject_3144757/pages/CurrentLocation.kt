@@ -18,7 +18,13 @@ suspend fun currentWeatherLocation(context: Context): Location? {
     ) return null
 
     val manager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-    if (!manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) return null
+    val fineGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
+        PackageManager.PERMISSION_GRANTED
+    val provider = when {
+        fineGranted && manager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
+        manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+        else -> return null
+    }
 
     return withTimeoutOrNull(15_000L) {
         suspendCancellableCoroutine { continuation ->
@@ -27,7 +33,7 @@ suspend fun currentWeatherLocation(context: Context): Location? {
             try {
                 LocationManagerCompat.getCurrentLocation(
                     manager,
-                    LocationManager.NETWORK_PROVIDER,
+                    provider,
                     signal,
                     ContextCompat.getMainExecutor(context)
                 ) { location ->

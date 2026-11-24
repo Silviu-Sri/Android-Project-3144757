@@ -163,7 +163,8 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     isDay = result.isDay
                 } catch (cancelled: CancellationException) {
                     throw cancelled
-                } catch (_: Exception) {
+                } catch (error: Exception) {
+                    android.util.Log.e("Weather", "Unable to obtain location or fetch weather", error)
                     weather = null
                 } finally {
                     loading = false
