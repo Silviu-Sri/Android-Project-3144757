@@ -1,10 +1,12 @@
 package com.griffith.androidproject_3144757.pages
 
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,32 +31,81 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.griffith.androidproject_3144757.R
 
 @Composable
-fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50, plantImageResource: Int = R.drawable.plant_image_3) {
+fun PlantScreen(
+    plantState: PlantState?,
+    sunsCount: Int = 50,
+    plantImageResource: Int = R.drawable.plant_image_3,
+    isDay: Boolean = true
+) {
     var expanded by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val bottomSkyRes = if (isDay) R.drawable.clear_sky_bottom else R.drawable.clear_sky_night_bottom
+    val bottomSkyBitmap = remember(bottomSkyRes) {
+        BitmapFactory.decodeResource(context.resources, bottomSkyRes)
+    }
+    val bottomSkyImageBitmap = remember(bottomSkyBitmap) {
+        bottomSkyBitmap?.asImageBitmap()
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = plantImageResource),
             contentDescription = stringResource(R.string.plant_picture),
-            modifier = Modifier.fillMaxSize().background(Color(0xFF87CEFA)),
-            contentScale = ContentScale.Fit
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
-        Surface(
-            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth(),
-            color = Color(0xFFEDF5E6)
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                .drawBehind {
+                    val canvasHeight = size.height
+                    val canvasWidth = size.width
+                    if (bottomSkyImageBitmap != null && bottomSkyImageBitmap.height > 0) {
+                        val scale = canvasHeight / bottomSkyImageBitmap.height
+                        val scaledWidth = bottomSkyImageBitmap.width * scale
+
+                        var currentX = 0f
+                        while (currentX < canvasWidth) {
+                            drawImage(
+                                image = bottomSkyImageBitmap,
+                                dstOffset = IntOffset(currentX.toInt(), 0),
+                                dstSize = IntSize(scaledWidth.toInt(), canvasHeight.toInt())
+                            )
+                            currentX += scaledWidth
+                        }
+                    } else {
+                        drawRect(color = Color(0xFFEDF5E6))
+                    }
+                    drawRect(
+                        color = Color.Black.copy(alpha = 0.35f),
+                        size = size
+                    )
+                }
         ) {
-            Column {
+            Column(modifier = Modifier.padding(bottom = 8.dp)) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, end = 16.dp, top = 8.dp, bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -62,7 +113,11 @@ fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50, plantImageResource
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(stringResource(R.string.plant_care), style = MaterialTheme.typography.titleSmall)
+                        Text(
+                            stringResource(R.string.plant_care),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = Color.White
+                        )
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -70,21 +125,25 @@ fun PlantScreen(plantState: PlantState?, sunsCount: Int = 50, plantImageResource
                             Text(
                                 text = sunsCount.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.primary
+                                color = Color(0xFFFFEE55)
                             )
                             Icon(
                                 painter = painterResource(id = R.drawable.leaf),
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = Color(0xFFFFEE55)
                             )
                         }
                     }
                     TextButton(onClick = { expanded = !expanded }) {
-                        Text(stringResource(if (expanded) R.string.plant_collapse else R.string.plant_expand))
+                        Text(
+                            stringResource(if (expanded) R.string.plant_collapse else R.string.plant_expand),
+                            color = Color.White
+                        )
                         Icon(
                             imageVector = if (expanded) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = Color.White
                         )
                     }
                 }
@@ -142,27 +201,28 @@ fun PlantStatusRow(plantState: PlantState?) {
             PlantStat(
                 label = stringResource(R.string.plant_moisture),
                 value = plantState?.soilMoisturePercent,
-                color = Color(0xFF1565C0),
+                color = Color(0xFF64B5F6),
                 modifier = Modifier.weight(1f)
             )
             PlantStat(
                 label = stringResource(R.string.plant_health),
                 value = plantState?.healthPercent,
-                color = Color(0xFF2E7D32),
+                color = Color(0xFF81C784),
                 modifier = Modifier.weight(1f)
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PlantStat(
                 label = stringResource(R.string.plant_happiness),
                 value = plantState?.happinessPercent,
-                color = Color(0xFFD16937),
+                color = Color(0xFFFFB74D),
                 modifier = Modifier.weight(1f)
             )
             PlantStat(
                 label = stringResource(R.string.plant_growth),
                 value = plantState?.growthProgressPercent,
-                color = Color(0xFF795548),
+                color = Color(0xFFA1887F),
                 modifier = Modifier.weight(1f)
             )
         }
@@ -170,25 +230,36 @@ fun PlantStatusRow(plantState: PlantState?) {
 }
 
 @Composable
-private fun PlantStat(label: String, value: Float?, color: Color, modifier: Modifier) {
+private fun PlantStat(
+    label: String,
+    value: Float?,
+    color: Color,
+    modifier: Modifier
+) {
     Surface(
         modifier = modifier,
-        color = Color(0xFFEDF5E6),
+        color = Color.Black.copy(alpha = 0.35f),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(text = label, style = MaterialTheme.typography.labelMedium)
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.White.copy(alpha = 0.9f)
+            )
             Text(
                 text = if (value == null) stringResource(R.string.plant_stat_loading)
                     else stringResource(R.string.plant_stat_percent, value),
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelLarge,
+                color = Color.White
             )
             LinearProgressIndicator(
                 progress = { (value ?: 0f) / 100f },
                 color = color,
+                trackColor = Color.White.copy(alpha = 0.2f),
                 modifier = Modifier.fillMaxWidth().height(4.dp)
             )
         }

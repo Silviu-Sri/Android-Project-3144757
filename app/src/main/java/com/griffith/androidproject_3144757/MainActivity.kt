@@ -222,11 +222,9 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     }
 
     val context = LocalContext.current
-    val dirtBitmap = remember {
-        BitmapFactory.decodeResource(context.resources, R.drawable.bottom_nav_dirt)
-    }
-    val dirtImageBitmap = remember(dirtBitmap) {
-        dirtBitmap.asImageBitmap()
+    val bottomSkyBitmap = remember(isDay) {
+        val resId = if (isDay) R.drawable.clear_sky_bottom else R.drawable.clear_sky_night_bottom
+        BitmapFactory.decodeResource(context.resources, resId).asImageBitmap()
     }
 
     val skyBitmaps = remember(isDay) {
@@ -303,14 +301,14 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     .drawBehind {
                         val canvasHeight = size.height
                         val canvasWidth = size.width
-                        if (dirtBitmap.height > 0) {
-                            val scale = canvasHeight / dirtBitmap.height
-                            val scaledWidth = dirtBitmap.width * scale
+                        if (bottomSkyBitmap.height > 0) {
+                            val scale = canvasHeight / bottomSkyBitmap.height
+                            val scaledWidth = bottomSkyBitmap.width * scale
 
                             var currentX = 0f
                             while (currentX < canvasWidth) {
                                 drawImage(
-                                    image = dirtImageBitmap,
+                                    image = bottomSkyBitmap,
                                     dstOffset = IntOffset(currentX.toInt(), 0),
                                     dstSize = IntSize(scaledWidth.toInt(), canvasHeight.toInt())
                                 )
@@ -318,7 +316,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                             }
                         }
                         drawRect(
-                            color = Color.Black.copy(alpha = 0.4f),
+                            color = Color.Black.copy(alpha = 0.35f),
                             size = size
                         )
                     },
@@ -355,7 +353,12 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             when (selectedTab) {
-                0 -> PlantScreen(plantState = plantState, sunsCount = currentSuns, plantImageResource = plantImageResource)
+                0 -> PlantScreen(
+                    plantState = plantState,
+                    sunsCount = currentSuns,
+                    plantImageResource = plantImageResource,
+                    isDay = isDay
+                )
                 1 -> ShopScreen(
                     sunsCount = currentSuns,
                     inventory = plantState?.inventory ?: emptyMap(),
