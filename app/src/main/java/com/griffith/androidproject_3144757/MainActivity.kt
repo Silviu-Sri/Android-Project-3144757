@@ -12,25 +12,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.LocalActivityResultRegistryOwner
-import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.delay
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.CancellationException
 import androidx.lifecycle.Lifecycle
@@ -41,7 +31,6 @@ import com.griffith.androidproject_3144757.pages.WeatherRepository
 import com.griffith.androidproject_3144757.pages.currentWeatherLocation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.griffith.androidproject_3144757.ui.theme.AndroidProject3144757Theme
@@ -63,20 +52,14 @@ import androidx.compose.runtime.setValue
 import android.graphics.BitmapFactory
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageShader
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
-import com.griffith.androidproject_3144757.R
 
 import com.griffith.androidproject_3144757.pages.PlantScreen
 import com.griffith.androidproject_3144757.pages.PlantWeatherTitle
@@ -227,15 +210,17 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         BitmapFactory.decodeResource(context.resources, resId).asImageBitmap()
     }
 
-    val skyBitmaps = remember(isDay) {
-        val skyResources = if (isDay) {
-            listOf(R.drawable.clear_sky_1, R.drawable.clear_sky_2, R.drawable.clear_sky_3)
-        } else {
-            listOf(
-                R.drawable._clear_sky_night_1,
-                R.drawable._clear_sky_night_2,
-                R.drawable._clear_sky_night_3
-            )
+    val skyBitmaps = remember(isDay, weather?.condition) {
+        val skyResources = when (weather?.condition) {
+            com.griffith.androidproject_3144757.pages.WeatherCondition.PARTLY_CLOUDY ->
+                if (isDay) listOf(R.drawable.part_cloudy_sky_1, R.drawable.part_cloudy_sky_2, R.drawable.part_cloudy_sky_3)
+                else listOf(R.drawable.part_cloudy_sky_night_1, R.drawable.part_cloudy_sky_night_2, R.drawable.part_cloudy_sky_night_3)
+            com.griffith.androidproject_3144757.pages.WeatherCondition.CLOUDY ->
+                if (isDay) listOf(R.drawable.cloudy_sky_1, R.drawable.cloudy_sky_2, R.drawable.cloudy_sky_3)
+                else listOf(R.drawable.cloudy_sky_night_1, R.drawable.cloudy_sky_night_2, R.drawable.cloudy_sky_night_3)
+            else ->
+                if (isDay) listOf(R.drawable.clear_sky_1, R.drawable.clear_sky_2, R.drawable.clear_sky_3)
+                else listOf(R.drawable.clear_sky_night_1, R.drawable.clear_sky_night_2, R.drawable.clear_sky_night_3)
         }
         skyResources.map { BitmapFactory.decodeResource(context.resources, it).asImageBitmap() }
     }
