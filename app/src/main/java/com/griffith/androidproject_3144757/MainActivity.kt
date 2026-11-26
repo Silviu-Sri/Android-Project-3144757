@@ -218,6 +218,9 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
             com.griffith.androidproject_3144757.pages.WeatherCondition.THUNDERSTORM ->
                 if (isDay) listOf(R.drawable.rain_sky_1, R.drawable.rain_sky_2, R.drawable.rain_sky_3)
                 else listOf(R.drawable.rain_sky_night_1, R.drawable.rain_sky_night_2, R.drawable.rain_sky_night_3)
+            com.griffith.androidproject_3144757.pages.WeatherCondition.SNOW ->
+                if (isDay) listOf(R.drawable.snow_sky_1, R.drawable.snow_sky_2, R.drawable.snow_sky_3)
+                else listOf(R.drawable.snow_sky_night_1, R.drawable.snow_sky_night_2, R.drawable.snow_sky_night_3)
             com.griffith.androidproject_3144757.pages.WeatherCondition.PARTLY_CLOUDY ->
                 if (isDay) listOf(R.drawable.part_cloudy_sky_1, R.drawable.part_cloudy_sky_2, R.drawable.part_cloudy_sky_3)
                 else listOf(R.drawable.part_cloudy_sky_night_1, R.drawable.part_cloudy_sky_night_2, R.drawable.part_cloudy_sky_night_3)
