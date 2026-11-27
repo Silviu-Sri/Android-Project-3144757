@@ -101,11 +101,11 @@ fun PlantScreen(
                     )
                 }
         ) {
-            Column(modifier = Modifier.padding(bottom = 8.dp)) {
+            Column {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 24.dp, end = 16.dp, top = 8.dp, bottom = 4.dp),
+                        .padding(start = 16.dp, end = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -130,7 +130,7 @@ fun PlantScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.leaf),
                                 contentDescription = null,
-                                modifier = Modifier.size(18.dp),
+                                modifier = Modifier.size(14.dp),
                                 tint = Color(0xFFFFEE55)
                             )
                         }
@@ -198,7 +198,7 @@ fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: B
 
 @Composable
 fun PlantStatusRow(plantState: PlantState?) {
-    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PlantStat(
                 label = stringResource(R.string.plant_moisture),
@@ -213,7 +213,7 @@ fun PlantStatusRow(plantState: PlantState?) {
                 modifier = Modifier.weight(1f)
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PlantStat(
                 label = stringResource(R.string.plant_happiness),
@@ -244,8 +244,8 @@ private fun PlantStat(
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            modifier = Modifier.padding(4.dp),
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             Text(
                 text = label,

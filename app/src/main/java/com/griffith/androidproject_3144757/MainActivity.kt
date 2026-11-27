@@ -299,7 +299,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
             NavigationBar(
                 modifier = Modifier
                     .height(
-                        64.dp + NavigationBarDefaults.windowInsets
+                        48.dp + NavigationBarDefaults.windowInsets
                             .asPaddingValues().calculateBottomPadding()
                     )
                     .drawBehind {
@@ -338,9 +338,6 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                                 contentDescription = title,
                                 tint = if (selectedTab == index) Color(0xFFFFEE55) else Color.White
                             )
-                        },
-                        label = {
-                            Text(title, color = if (selectedTab == index) Color(0xFFFFEE55) else Color.White)
                         },
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
