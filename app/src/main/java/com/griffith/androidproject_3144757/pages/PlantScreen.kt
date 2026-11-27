@@ -156,8 +156,8 @@ fun PlantScreen(
 }
 
 @Composable
-fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: Boolean, fixedLocationName: String) {
-    val locationName = if (useCurrentLocation) stringResource(R.string.weather_current_location) else fixedLocationName
+fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: Boolean, fixedLocationName: String, currentLocationName: String?, onRefreshLocation: () -> Unit) {
+    val locationName = if (useCurrentLocation) currentLocationName ?: stringResource(R.string.weather_current_location) else fixedLocationName
     val currentWeather = weather
     val heading = if (!loading && currentWeather != null) {
         locationName + " · " +
@@ -174,6 +174,8 @@ fun PlantWeatherTitle(weather: Weather?, loading: Boolean, useCurrentLocation: B
     }
 
     Surface(
+        onClick = onRefreshLocation,
+        enabled = useCurrentLocation,
         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
         shape = RoundedCornerShape(8.dp)
     ) {

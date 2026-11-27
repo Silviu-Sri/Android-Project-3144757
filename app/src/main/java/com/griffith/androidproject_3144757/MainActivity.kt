@@ -138,6 +138,8 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
     }
     var fixedLocationName by remember { mutableStateOf(weatherPreferences.getString("plant_location_name", null)) }
     var locationRefresh by remember { mutableIntStateOf(0) }
+    var currentLocationName by remember { mutableStateOf<String?>(null) }
+    val locationLocale = LocalConfiguration.current.locales[0]
     var isDay by rememberSaveable { mutableStateOf(true) }
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }
@@ -163,7 +165,8 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
         }
     }
 
-    LaunchedEffect(lifecycleOwner, useCurrentLocation, locationRefresh, fixedLocationName) {
+    LaunchedEffect(lifecycleOwner, useCurrentLocation, locationRefresh, fixedLocationName, locationLocale) {
+        currentLocationName = null
         weather = null
         loading = true
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -174,6 +177,9 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                     val result = if (useCurrentLocation) {
                         val location = currentWeatherLocation(contextForPlant)
                             ?: throw java.io.IOException("Location unavailable")
+                        currentLocationName = com.griffith.androidproject_3144757.pages.currentLocationName(
+                            contextForPlant, location, locationLocale
+                        )
                         WeatherRepository.fetch(location.latitude, location.longitude)
                     } else {
                         val latitude = weatherPreferences.getString("plant_location_latitude", null)?.toDoubleOrNull()
@@ -280,7 +286,7 @@ fun MainScreen(onLanguageChange: (String) -> Unit) {
                 TopAppBar(
                     title = {
                         if (selectedTab == 0) {
-                            PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation, fixedLocationName = fixedLocationName.orEmpty())
+                            PlantWeatherTitle(weather = weather, loading = loading, useCurrentLocation = useCurrentLocation, fixedLocationName = fixedLocationName.orEmpty(), currentLocationName = currentLocationName, onRefreshLocation = { locationRefresh++ })
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
